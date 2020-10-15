@@ -25,6 +25,9 @@ public:
     void resized() override;
 
 private:
+    
+    juce::Slider outputVolume;
+    
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     VenomDistortionAudioProcessor& audioProcessor;

@@ -2,7 +2,8 @@
 
 <JUCERPROJECT id="sUc9Ld" name="Venom Distortion" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              companyName="Nate08 Records" pluginVST3Category="Distortion">
+              companyName="Nate08 Records" pluginVST3Category="Distortion"
+              version="1.0.1">
   <MAINGROUP id="cNmBnA" name="Venom Distortion">
     <GROUP id="{D2AA9CA7-5E11-9D12-C29D-F1A9BD5F3F68}" name="Source">
       <FILE id="j8SEIi" name="PluginProcessor.cpp" compile="1" resource="0"
