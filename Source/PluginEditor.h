@@ -26,11 +26,14 @@ public:
 
 private:
     
-    juce::Slider outputVolume;
     
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     VenomDistortionAudioProcessor& audioProcessor;
+    
+    juce::Slider outputVolume;
+    
+    juce::Slider distortionDrive;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)
 };
