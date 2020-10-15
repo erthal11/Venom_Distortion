@@ -22,6 +22,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     outputVolume.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
     outputVolume.setRange (-48.0f, 0.0f, 1.0f);
     outputVolume.setValue(0.0f);
+    // this = this class
+    outputVolume.addListener(this);
     // slider customization
     outputVolume.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
     outputVolume.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
@@ -76,4 +78,12 @@ void VenomDistortionAudioProcessorEditor::resized()
     
     distortionDrive.setBounds(getWidth()/4-25, getHeight()/4, 130, 130);
     outputVolume.setBounds((getWidth()/2)+50, getHeight()/4, 130, 130);
+}
+
+void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
+{
+    if (slider == &outputVolume)
+    {
+        audioProcessor.gain = outputVolume.getValue();
+    }
 }

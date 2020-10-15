@@ -16,6 +16,8 @@
 class VenomDistortionAudioProcessor  : public juce::AudioProcessor
 {
 public:
+    
+    
     //==============================================================================
     VenomDistortionAudioProcessor();
     ~VenomDistortionAudioProcessor() override;
@@ -52,6 +54,8 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    float gain {1.0};
 
 private:
     //==============================================================================
