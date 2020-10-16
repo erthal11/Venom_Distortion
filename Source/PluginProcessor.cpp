@@ -157,7 +157,11 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         {
             
             // multiplys volume by gain variable
-            channelData[sample] = ((2.0f/juce::float_Pi) * atan(channelData[sample] * drive)) * (channelData[sample] * juce::Decibels::decibelsToGain(gain));
+            //channelData[sample] = ((2.0f/juce::float_Pi) * atan(channelData[sample] * drive)) * (channelData[sample] * juce::Decibels::decibelsToGain(gain));
+            
+            channelData[sample] = (((2.0f/juce::float_Pi) * atan(channelData[sample] * drive)) + (channelData[sample] * juce::Decibels::decibelsToGain(gain))) * juce::Decibels::decibelsToGain(gain);
+            
+            
             //juce::Decibels::decibelsToGain(gain) ;
             
             // this formula works for setting drive and output both as volume knobs
