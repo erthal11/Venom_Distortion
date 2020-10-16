@@ -45,11 +45,12 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     addAndMakeVisible (&distortionDrive);
     
     
-    // Mix
+    // mix
     distortionMix.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionMix.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionMix.setRange (-48.0f, 0.0f, 1.0f);
-    distortionMix.setValue(-48.0f);
+    distortionMix.setRange (0.001f, 1.0f, 0.001f);
+    distortionMix.setValue(1.0f);
+    distortionMix.addListener(this);
 
     distortionMix.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
     distortionMix.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
@@ -76,7 +77,7 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
     // set the font size and draw text to the screen
     g.setFont (20.0f);
      
-    g.drawFittedText ("Venom Distortion", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Venom Distortion v2", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
 }
 
 void VenomDistortionAudioProcessorEditor::resized()
@@ -97,11 +98,15 @@ void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slid
 {
     if (slider == &outputVolume)
     {
-        audioProcessor.gain = outputVolume.getValue();
+        audioProcessor.output = outputVolume.getValue();
     }
     else if (slider == &distortionDrive)
     {
         audioProcessor.drive = distortionDrive.getValue();
+    }
+    else if (slider == &distortionMix)
+    {
+        audioProcessor.mix = distortionMix.getValue();
     }
 }
 
