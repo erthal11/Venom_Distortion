@@ -155,7 +155,13 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         // ..do something to the data...
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(gain);
+            
+            // multiplys volume by gain variable
+            channelData[sample] = ((2.f/juce::float_Pi) * atan(drive)) + juce::Decibels::decibelsToGain(gain) ;
+            
+            
+            //channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(gain);
+            
         }
     }
 }

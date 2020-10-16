@@ -35,14 +35,26 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // DISTORTION
     distortionDrive.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionDrive.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionDrive.setRange (-48.0f, 0.0f, 1.0f);
-    distortionDrive.setValue(-48.0f);
-    // slider customization
+    distortionDrive.setRange (0.0f, 40.0f, 1.0f);
+    distortionDrive.setValue(0.0f);
+    distortionDrive.addListener(this);
+
     distortionDrive.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
     distortionDrive.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
-    // this function adds the slider to the editor
     addAndMakeVisible (&distortionDrive);
+    
+    
+    // Mix
+    distortionMix.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    distortionMix.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    distortionMix.setRange (-48.0f, 0.0f, 1.0f);
+    distortionMix.setValue(-48.0f);
+
+    distortionMix.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    distortionMix.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+     
+    addAndMakeVisible (&distortionMix);
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()
@@ -76,8 +88,9 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    distortionDrive.setBounds(getWidth()/4-25, getHeight()/4, 130, 130);
-    outputVolume.setBounds((getWidth()/2)+50, getHeight()/4, 130, 130);
+    distortionDrive.setBounds(getWidth()/6, getHeight()/4, 130, 130);
+    distortionMix.setBounds((getWidth()/2)-25, getHeight()/4, 130, 130);
+    outputVolume.setBounds((getWidth()/2)+100, getHeight()/4, 130, 130);
 }
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
@@ -86,4 +99,9 @@ void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slid
     {
         audioProcessor.gain = outputVolume.getValue();
     }
+    else if (slider == &distortionDrive)
+    {
+        audioProcessor.drive = distortionDrive.getValue();
+    }
 }
+
