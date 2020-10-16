@@ -35,8 +35,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // DISTORTION
     distortionDrive.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionDrive.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionDrive.setRange (0.0f, 40.0f, 1.0f);
-    distortionDrive.setValue(0.0f);
+    distortionDrive.setRange (1.0f, 1000.0f, 1.0f);
+    distortionDrive.setValue(1.0f);
     distortionDrive.addListener(this);
 
     distortionDrive.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);

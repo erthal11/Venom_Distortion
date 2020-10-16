@@ -55,9 +55,9 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    float gain;
+    float gain{0.0f};
     
-    float drive {0.0f};
+    float drive {1.0f};
 
 private:
     //==============================================================================
