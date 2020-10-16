@@ -49,13 +49,25 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     distortionMix.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionMix.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
     distortionMix.setRange (0.0f, 1.0f, 0.001f);
-    distortionMix.setValue(0.0f);
+    distortionMix.setValue(1.0f);
     distortionMix.addListener(this);
 
     distortionMix.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
     distortionMix.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
     addAndMakeVisible (&distortionMix);
+    
+    // input
+    inputVolume.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    inputVolume.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    inputVolume.setRange (-30.0f, 30.0f, 0.5f);
+    inputVolume.setValue(0.0f);
+    inputVolume.addListener(this);
+
+    inputVolume.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    inputVolume.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+     
+    addAndMakeVisible (&inputVolume);
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()
@@ -89,7 +101,8 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    distortionDrive.setBounds(getWidth()/6, getHeight()/4, 130, 130);
+    inputVolume.setBounds(getWidth()/6-50, getHeight()/4, 130, 130);
+    distortionDrive.setBounds(getWidth()/6+50, getHeight()/4, 130, 130);
     distortionMix.setBounds((getWidth()/2)-25, getHeight()/4, 130, 130);
     outputVolume.setBounds((getWidth()/2)+100, getHeight()/4, 130, 130);
 }
@@ -107,6 +120,10 @@ void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slid
     else if (slider == &distortionMix)
     {
         audioProcessor.mix = distortionMix.getValue();
+    }
+    else if (slider ==&inputVolume)
+    {
+        audioProcessor.input = inputVolume.getValue();
     }
 }
 

@@ -33,6 +33,7 @@ private:
     juce::Slider distortionDrive;
     juce::Slider distortionMix;
     juce::Slider outputVolume;
+    juce::Slider inputVolume;
     
 //    juce::AudioProcessorValueTreeState::SliderAttachment drive;
 //    juce::AudioProcessorValueTreeState::SliderAttachment mix;

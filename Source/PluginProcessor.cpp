@@ -157,13 +157,12 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         {
             
             
-            channelData[sample] =
-            // working drive, output, mix knobs
-            ((((2.0f/juce::float_Pi) * atan(channelData[sample] * drive) * mix) * (juce::Decibels::decibelsToGain(output))) + ((channelData[sample] * juce::Decibels::decibelsToGain(output)) * (1-mix)));
+            //set input volume
+            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(input);
             
+            // distortion algorithm and output
+            channelData[sample] = ((((2.0f/juce::float_Pi) * atan(channelData[sample] * drive) * mix) * (juce::Decibels::decibelsToGain(output))) + ((channelData[sample] * juce::Decibels::decibelsToGain(output)) * (1-mix)));
             
-            // working drive and output knobs
-            //((2.0f/juce::float_Pi) * atan(channelData[sample] * drive) + (channelData[sample] * juce::Decibels::decibelsToGain(gain))) *juce::Decibels::decibelsToGain(gain);
             
         }
     }
