@@ -59,7 +59,7 @@ public:
     
     float output {0.0f};
     
-    float drive {1.0f};
+    float drive {1.f};
     
     float mix {0.0f};
 

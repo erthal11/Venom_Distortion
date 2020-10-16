@@ -20,7 +20,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // these define the parameters of our slider object
     outputVolume.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     outputVolume.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    outputVolume.setRange (-48.0f, 0.0f, 1.0f);
+    outputVolume.setRange (-100.0f, 0.0f, 1.0f);
     outputVolume.setValue(0.0f);
     // this = this class
     outputVolume.addListener(this);
@@ -32,11 +32,11 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     addAndMakeVisible (&outputVolume);
     
     
-    // DISTORTION
+    // Drive
     distortionDrive.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionDrive.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionDrive.setRange (1.0f, 60.0f, 0.5f);
-    distortionDrive.setValue(1.0f);
+    distortionDrive.setRange (1.f, 25.0f, 0.05f);
+    distortionDrive.setValue(1.f);
     distortionDrive.addListener(this);
 
     distortionDrive.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);

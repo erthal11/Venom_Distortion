@@ -160,8 +160,22 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             //set input volume
             channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(input);
             
-            // distortion algorithm and output
-            channelData[sample] = ((((2.0f/juce::float_Pi) * atan(channelData[sample] * drive) * mix) * (juce::Decibels::decibelsToGain(output))) + ((channelData[sample] * juce::Decibels::decibelsToGain(output)) * (1-mix)));
+            // https://www.youtube.com/watch?v=oIChUOV_0w4
+            // compression at 23:13
+            // bitcrushing at 29:00
+            
+            //algorithms
+            float softcliparctan = (2.0f/juce::float_Pi) * atan(channelData[sample] * drive);
+            //float hardclip = juce::jlimit(-1.0f,1.0f,channelData[sample]) * drive;
+            //float tanhwaveshaper = tanh(channelData[sample] * drive);
+            //float sinefoldover = sin(channelData[sample]) * drive;
+            //float softclipcubic = channelData[sample]-(1/3)*pow(channelData[sample], 3) * drive;
+            
+            // set drive and output and mix
+            channelData[sample] = (((softcliparctan * mix) * (juce::Decibels::decibelsToGain(output))) + ((channelData[sample] * juce::Decibels::decibelsToGain(output)) * (1-mix)));
+            
+            // set distortion and output
+            //channelData[sample] = ((softcliparctan) * (juce::Decibels::decibelsToGain(output)));
             
             
         }
