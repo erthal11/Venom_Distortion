@@ -165,8 +165,6 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             // working drive and output knobs
             //((2.0f/juce::float_Pi) * atan(channelData[sample] * drive) + (channelData[sample] * juce::Decibels::decibelsToGain(gain))) *juce::Decibels::decibelsToGain(gain);
             
-        
-            
         }
     }
 }

@@ -48,8 +48,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // mix
     distortionMix.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     distortionMix.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionMix.setRange (0.001f, 1.0f, 0.001f);
-    distortionMix.setValue(1.0f);
+    distortionMix.setRange (0.0f, 1.0f, 0.001f);
+    distortionMix.setValue(0.0f);
     distortionMix.addListener(this);
 
     distortionMix.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
