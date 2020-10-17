@@ -30,10 +30,10 @@ public:
 
 private:
     
-    juce::Slider distortionDrive;
-    juce::Slider distortionMix;
-    juce::Slider outputVolume;
-    juce::Slider inputVolume;
+    juce::Slider driveSlider;
+    juce::Slider mixSlider;
+    juce::Slider outputSlider;
+    juce::Slider inputSlider;
     
 //    juce::AudioProcessorValueTreeState::SliderAttachment drive;
 //    juce::AudioProcessorValueTreeState::SliderAttachment mix;
@@ -43,6 +43,8 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     VenomDistortionAudioProcessor& audioProcessor;
+    
+public:
     
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)

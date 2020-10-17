@@ -14,60 +14,61 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     
+    
     setSize (600, 200);
      
     // OUTPUT
     // these define the parameters of our slider object
-    outputVolume.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    outputVolume.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    outputVolume.setRange (-100.0f, 0.0f, 1.0f);
-    outputVolume.setValue(0.0f);
+    outputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    outputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    outputSlider.setRange (-100.0f, 0.0f, 1.0f);
+    outputSlider.setValue(0.0f);
     // this = this class
-    outputVolume.addListener(this);
+    outputSlider.addListener(this);
     // slider customization
-    outputVolume.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
-    outputVolume.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+    outputSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    outputSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
     // this function adds the slider to the editor
-    addAndMakeVisible (&outputVolume);
+    addAndMakeVisible (&outputSlider);
     
     
     // Drive
-    distortionDrive.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    distortionDrive.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionDrive.setRange (1.f, 25.0f, 0.05f);
-    distortionDrive.setValue(1.f);
-    distortionDrive.addListener(this);
+    driveSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    driveSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    driveSlider.setRange (1.f, 25.0f, 0.05f);
+    driveSlider.setValue(1.f);
+    driveSlider.addListener(this);
 
-    distortionDrive.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
-    distortionDrive.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+    driveSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    driveSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
-    addAndMakeVisible (&distortionDrive);
+    addAndMakeVisible (&driveSlider);
     
     
     // mix
-    distortionMix.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    distortionMix.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    distortionMix.setRange (0.0f, 1.0f, 0.001f);
-    distortionMix.setValue(1.0f);
-    distortionMix.addListener(this);
+    mixSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    mixSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    mixSlider.setRange (0.0f, 1.0f, 0.001f);
+    mixSlider.setValue(1.0f);
+    mixSlider.addListener(this);
 
-    distortionMix.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
-    distortionMix.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+    mixSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    mixSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
-    addAndMakeVisible (&distortionMix);
+    addAndMakeVisible (&mixSlider);
     
     // input
-    inputVolume.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
-    inputVolume.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    inputVolume.setRange (-30.0f, 30.0f, 0.5f);
-    inputVolume.setValue(0.0f);
-    inputVolume.addListener(this);
+    inputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    inputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    inputSlider.setRange (-30.0f, 30.0f, 0.5f);
+    inputSlider.setValue(0.0f);
+    inputSlider.addListener(this);
 
-    inputVolume.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
-    inputVolume.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+    inputSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    inputSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
-    addAndMakeVisible (&inputVolume);
+    addAndMakeVisible (&inputSlider);
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()
@@ -101,29 +102,29 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    inputVolume.setBounds(getWidth()/6-50, getHeight()/4, 130, 130);
-    distortionDrive.setBounds(getWidth()/6+50, getHeight()/4, 130, 130);
-    distortionMix.setBounds((getWidth()/2)-25, getHeight()/4, 130, 130);
-    outputVolume.setBounds((getWidth()/2)+100, getHeight()/4, 130, 130);
+    inputSlider.setBounds(getWidth()/6-50, getHeight()/4, 130, 130);
+    driveSlider.setBounds(getWidth()/6+50, getHeight()/4, 130, 130);
+    mixSlider.setBounds((getWidth()/2)-25, getHeight()/4, 130, 130);
+    outputSlider.setBounds((getWidth()/2)+100, getHeight()/4, 130, 130);
 }
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
 {
-    if (slider == &outputVolume)
+    if (slider == &outputSlider)
     {
-        audioProcessor.output = outputVolume.getValue();
+        audioProcessor.output = outputSlider.getValue();
     }
-    else if (slider == &distortionDrive)
+    else if (slider == &driveSlider)
     {
-        audioProcessor.drive = distortionDrive.getValue();
+        audioProcessor.drive = driveSlider.getValue();
     }
-    else if (slider == &distortionMix)
+    else if (slider == &mixSlider)
     {
-        audioProcessor.mix = distortionMix.getValue();
+        audioProcessor.mix = mixSlider.getValue();
     }
-    else if (slider ==&inputVolume)
+    else if (slider ==&inputSlider)
     {
-        audioProcessor.input = inputVolume.getValue();
+        audioProcessor.input = inputSlider.getValue();
     }
 }
 
