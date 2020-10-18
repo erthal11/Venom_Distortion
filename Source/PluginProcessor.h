@@ -22,6 +22,9 @@
 #define MIX_ID "mix"
 #define MIX_NAME "Mix"
 
+#define CUTOFF_ID "cutoff"
+#define CUTOFF_NAME "Cutoff"
+
 //==============================================================================
 /**
 */
@@ -67,13 +70,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
     
-    float input {0.0f};
-    
-    float output {0.0f};
-    
-    float drive {1.f};
-    
-    float mix {0.0f};
+//    float input {0.0f};
+//    
+//    float output {0.0f};
+//    
+//    float drive {1.f};
+//    
+//    float mix {0.0f};
     
     juce::AudioProcessorValueTreeState treeState;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
