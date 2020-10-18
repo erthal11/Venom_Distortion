@@ -24,7 +24,7 @@ treeState (*this, nullptr, "PARAMETER", createParameterLayout()),
 lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000.0f, 0.1))
 #endif
 {
-    juce::NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
+    juce::NormalisableRange<float> cutoffRange (100.0f, 20000.0f);
        
        treeState.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 100.0f, nullptr, nullptr);
 }
