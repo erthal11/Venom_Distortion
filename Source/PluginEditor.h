@@ -45,7 +45,7 @@ private:
     VenomDistortionAudioProcessor& audioProcessor;
     
 public:
-    
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> outputValue;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)
 };

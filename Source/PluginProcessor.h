@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#define GAIN_ID "gain"
+#define GAIN_NAME "Gain"
 
 //==============================================================================
 /**
@@ -62,6 +64,9 @@ public:
     float drive {1.f};
     
     float mix {0.0f};
+    
+    juce::AudioProcessorValueTreeState treeState;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
 private:
     //==============================================================================

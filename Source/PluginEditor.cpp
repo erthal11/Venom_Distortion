@@ -13,7 +13,7 @@
 VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomDistortionAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    
+    outputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, outputSlider);
     
     setSize (600, 200);
      
@@ -110,21 +110,21 @@ void VenomDistortionAudioProcessorEditor::resized()
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
 {
-    if (slider == &outputSlider)
-    {
-        audioProcessor.output = outputSlider.getValue();
-    }
-    else if (slider == &driveSlider)
-    {
-        audioProcessor.drive = driveSlider.getValue();
-    }
-    else if (slider == &mixSlider)
-    {
-        audioProcessor.mix = mixSlider.getValue();
-    }
-    else if (slider ==&inputSlider)
-    {
-        audioProcessor.input = inputSlider.getValue();
-    }
+//    if (slider == &outputSlider)
+//    {
+//        audioProcessor.output = outputSlider.getValue();
+//    }
+//    else if (slider == &driveSlider)
+//    {
+//        audioProcessor.drive = driveSlider.getValue();
+//    }
+//    else if (slider == &mixSlider)
+//    {
+//        audioProcessor.mix = mixSlider.getValue();
+//    }
+//    else if (slider ==&inputSlider)
+//    {
+//        audioProcessor.input = inputSlider.getValue();
+//    }
 }
 

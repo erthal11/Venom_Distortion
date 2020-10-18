@@ -19,7 +19,8 @@ VenomDistortionAudioProcessor::VenomDistortionAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+treeState (*this, nullptr, "PARAMETER", createParameterLayout())
 #endif
 {
 }
@@ -29,6 +30,18 @@ VenomDistortionAudioProcessor::~VenomDistortionAudioProcessor()
 }
 
 //==============================================================================
+
+juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcessor::createParameterLayout()
+{
+    std::vector <std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    auto gainParam = std::make_unique<juce::AudioParameterFloat>(GAIN_ID, GAIN_NAME, -48.0f, 0.0f, -15.0f);
+    
+    params.push_back(std::move(gainParam));
+
+    return { params.begin(), params.end() };
+}
+
 const juce::String VenomDistortionAudioProcessor::getName() const
 {
     return JucePlugin_Name;
@@ -151,7 +164,7 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-
+        auto sliderGainValue = treeState.getRawParameterValue (GAIN_ID);
         // ..do something to the data...
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
@@ -172,7 +185,7 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             //float softclipcubic = channelData[sample]-(1/3)*pow(channelData[sample], 3) * drive;
             
             // set drive and output and mix
-            channelData[sample] = (((softcliparctan * mix) * (juce::Decibels::decibelsToGain(output))) + ((channelData[sample] * juce::Decibels::decibelsToGain(output)) * (1-mix)));
+            channelData[sample] = (((softcliparctan * mix) * (juce::Decibels::decibelsToGain(sliderGainValue->load()))) + ((channelData[sample] * juce::Decibels::decibelsToGain(sliderGainValue->load())) * (1-mix)));
             
             // set distortion and output
             //channelData[sample] = ((softcliparctan) * (juce::Decibels::decibelsToGain(output)));
