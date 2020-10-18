@@ -20,9 +20,13 @@ VenomDistortionAudioProcessor::VenomDistortionAudioProcessor()
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
                        ),
-treeState (*this, nullptr, "PARAMETER", createParameterLayout())
+treeState (*this, nullptr, "PARAMETER", createParameterLayout()),
+lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000.0f, 0.1))
 #endif
 {
+    juce::NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
+       
+       treeState.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 100.0f, nullptr, nullptr);
 }
 
 VenomDistortionAudioProcessor::~VenomDistortionAudioProcessor()
@@ -46,6 +50,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
     
     auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 0.05f);
     params.push_back(std::move(driveParam));
+    
+    //auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 100.f, 20000.0f, 100.0f);
+    //params.push_back(std::move(cutoffParam));
     
 
     return { params.begin(), params.end() };
@@ -117,6 +124,16 @@ void VenomDistortionAudioProcessor::prepareToPlay (double sampleRate, int sample
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+    lastSampleRate = sampleRate;
+        
+        juce::dsp::ProcessSpec spec;
+        spec.sampleRate = sampleRate;
+        spec.maximumBlockSize = samplesPerBlock;
+        spec.numChannels = getTotalNumOutputChannels();
+        
+     
+        lowPassFilter.prepare(spec);
+        lowPassFilter.reset();
 }
 
 void VenomDistortionAudioProcessor::releaseResources()
@@ -148,6 +165,13 @@ bool VenomDistortionAudioProcessor::isBusesLayoutSupported (const BusesLayout& l
   #endif
 }
 #endif
+
+void VenomDistortionAudioProcessor::updateFilter()
+{
+    float freq = *treeState.getRawParameterValue("cutoff");
+    
+    *lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(lastSampleRate, freq, 0.1);
+}
 
 void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
@@ -205,6 +229,9 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             
         }
     }
+    juce::dsp::AudioBlock <float> block (buffer);
+        updateFilter();
+        lowPassFilter.process(juce::dsp::ProcessContextReplacing<float> (block));
 }
 
 //==============================================================================

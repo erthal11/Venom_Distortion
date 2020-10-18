@@ -78,10 +78,17 @@ public:
 //    
 //    float mix {0.0f};
     
+    void updateFilter();
+    
     juce::AudioProcessorValueTreeState treeState;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
 private:
+    
+    juce::dsp::ProcessorDuplicator <juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients <float>> lowPassFilter;
+       
+       float lastSampleRate;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessor)
 };
