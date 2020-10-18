@@ -9,8 +9,18 @@
 #pragma once
 
 #include <JuceHeader.h>
-#define GAIN_ID "gain"
-#define GAIN_NAME "Gain"
+
+#define OUTPUT_ID "output"
+#define OUTPUT_NAME "Output"
+
+#define INPUT_ID "input"
+#define INPUT_NAME "Input"
+
+#define DRIVE_ID "drive"
+#define DRIVE_NAME "Drive"
+
+#define MIX_ID "mix"
+#define MIX_NAME "Mix"
 
 //==============================================================================
 /**

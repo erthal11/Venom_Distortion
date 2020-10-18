@@ -35,9 +35,18 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
 {
     std::vector <std::unique_ptr<juce::RangedAudioParameter>> params;
     
-    auto gainParam = std::make_unique<juce::AudioParameterFloat>(GAIN_ID, GAIN_NAME, -48.0f, 0.0f, -15.0f);
+    auto outputParam = std::make_unique<juce::AudioParameterFloat>(OUTPUT_ID, OUTPUT_NAME, -50.0f, 0.0f, 0.5f);
+    params.push_back(std::move(outputParam));
     
-    params.push_back(std::move(gainParam));
+    auto inputParam = std::make_unique<juce::AudioParameterFloat>(INPUT_ID, INPUT_NAME, -30.0f, 30.0f, 0.5f);
+    params.push_back(std::move(inputParam));
+    
+    auto mixParam = std::make_unique<juce::AudioParameterFloat>(MIX_ID, MIX_NAME, 0.0f, 1.0f, 1.0f);
+    params.push_back(std::move(mixParam));
+    
+    auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 0.05f);
+    params.push_back(std::move(driveParam));
+    
 
     return { params.begin(), params.end() };
 }
@@ -164,28 +173,31 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        auto sliderGainValue = treeState.getRawParameterValue (GAIN_ID);
+        auto sliderOutputValue = treeState.getRawParameterValue (OUTPUT_ID);
+        auto sliderInputValue = treeState.getRawParameterValue (INPUT_ID);
+        auto sliderDriveValue = treeState.getRawParameterValue (DRIVE_ID);
+        auto sliderMixValue = treeState.getRawParameterValue (MIX_ID);
         // ..do something to the data...
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
             
             
             //set input volume
-            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(input);
+            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(sliderInputValue->load());
             
             // https://www.youtube.com/watch?v=oIChUOV_0w4
             // compression at 23:13
             // bitcrushing at 29:00
             
             //algorithms
-            float softcliparctan = (2.0f/juce::float_Pi) * atan(channelData[sample] * drive);
+            float softcliparctan = (2.0f/juce::float_Pi) * atan(channelData[sample] * sliderDriveValue->load());
             //float hardclip = juce::jlimit(-1.0f,1.0f,channelData[sample]) * drive;
             //float tanhwaveshaper = tanh(channelData[sample] * drive);
             //float sinefoldover = sin(channelData[sample]) * drive;
             //float softclipcubic = channelData[sample]-(1/3)*pow(channelData[sample], 3) * drive;
             
             // set drive and output and mix
-            channelData[sample] = (((softcliparctan * mix) * (juce::Decibels::decibelsToGain(sliderGainValue->load()))) + ((channelData[sample] * juce::Decibels::decibelsToGain(sliderGainValue->load())) * (1-mix)));
+            channelData[sample] = (((softcliparctan * sliderMixValue->load()) * (juce::Decibels::decibelsToGain(sliderOutputValue->load()))) + ((channelData[sample] * juce::Decibels::decibelsToGain(sliderOutputValue->load())) * (1-sliderMixValue->load())));
             
             // set distortion and output
             //channelData[sample] = ((softcliparctan) * (juce::Decibels::decibelsToGain(output)));

@@ -13,7 +13,6 @@
 VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomDistortionAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    outputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, GAIN_ID, outputSlider);
     
     setSize (600, 200);
      
@@ -21,7 +20,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // these define the parameters of our slider object
     outputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     outputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    outputSlider.setRange (-100.0f, 0.0f, 1.0f);
+    outputSlider.setRange (-50.0f, 0.0f, 0.5f);
     outputSlider.setValue(0.0f);
     // this = this class
     outputSlider.addListener(this);
@@ -31,6 +30,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
      
     // this function adds the slider to the editor
     addAndMakeVisible (&outputSlider);
+    
+    outputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, OUTPUT_ID, outputSlider);
     
     
     // Drive
@@ -45,6 +46,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
      
     addAndMakeVisible (&driveSlider);
     
+    driveValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, DRIVE_ID, driveSlider);
+    
     
     // mix
     mixSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
@@ -58,6 +61,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
      
     addAndMakeVisible (&mixSlider);
     
+    mixValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, MIX_ID, mixSlider);
+    
     // input
     inputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     inputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
@@ -69,6 +74,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     inputSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
      
     addAndMakeVisible (&inputSlider);
+    
+    inputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, INPUT_ID, inputSlider);
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()

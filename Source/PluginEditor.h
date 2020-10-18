@@ -46,6 +46,10 @@ private:
     
 public:
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> outputValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> inputValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> mixValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> driveValue;
+
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)
 };
