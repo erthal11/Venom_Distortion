@@ -224,14 +224,20 @@ void VenomDistortionAudioProcessor::getStateInformation (juce::MemoryBlock& dest
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
-    juce::MemoryOutputStream (destData, true).writeFloat (output);
+    auto state = treeState.copyState();
+            std::unique_ptr<juce::XmlElement> xml (state.createXml());
+            copyXmlToBinary (*xml, destData);
 }
 
 void VenomDistortionAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
-    output = juce::MemoryInputStream (data, static_cast<size_t> (sizeInBytes), false).readFloat();
+    std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
+     
+    if (xmlState.get() != nullptr)
+        if (xmlState->hasTagName (treeState.state.getType()))
+            treeState.replaceState (juce::ValueTree::fromXml (*xmlState));
 }
 
 //==============================================================================
