@@ -24,9 +24,9 @@ treeState (*this, nullptr, "PARAMETER", createParameterLayout()),
 lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000.0f, 0.1))
 #endif
 {
-    juce::NormalisableRange<float> cutoffRange (100.0f, 20000.0f);
+    //juce::NormalisableRange<float> cutoffRange (100.0f, 20000.0f);
        
-       treeState.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 100.0f, nullptr, nullptr);
+       //treeState.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 100.0f, nullptr, nullptr);
 }
 
 VenomDistortionAudioProcessor::~VenomDistortionAudioProcessor()
@@ -51,8 +51,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
     auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 0.05f);
     params.push_back(std::move(driveParam));
     
-    //auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 100.f, 20000.0f, 100.0f);
-    //params.push_back(std::move(cutoffParam));
+    auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 100.f, 20000.0f, 100.0f);
+    params.push_back(std::move(cutoffParam));
     
 
     return { params.begin(), params.end() };
@@ -206,8 +206,8 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         // ..do something to the data...
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            //set input volume
-            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(sliderInputValue->load());
+            //set input volume, add 3 bc algorithm makes starting volume slightly lower
+            channelData[sample] = channelData[sample] * juce::Decibels::decibelsToGain(sliderInputValue->load() + 3);
             
             // https://www.youtube.com/watch?v=oIChUOV_0w4
             // compression at 23:13
