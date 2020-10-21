@@ -179,26 +179,24 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+    
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
+    
 
-    float *cleanSignal = new float[buffer.getNumSamples()];
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
+    // copy samples for a dry signal, split into L and R instead of doing for(#channels) bc creating a cleanSignal array only works in mono
+    float *cleanSignalL = new float[buffer.getNumSamples()];
+    float *cleanSignalR = new float[buffer.getNumSamples()];
+    
+        auto* channelDataL = buffer.getWritePointer (0);
+        auto* channelDataR = buffer.getWritePointer (1);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            cleanSignal[sample] = channelData[sample];
+            cleanSignalL[sample] = channelDataL[sample];
+            cleanSignalR[sample] = channelDataR[sample];
         }
-    }
     
-    
+    // apply distortion processing to channel data
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
@@ -224,21 +222,21 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             
         }
     }
+    
+    // process filtering
     juce::dsp::AudioBlock <float> block (buffer);
         updateFilter();
         lowPassFilter.process(juce::dsp::ProcessContextReplacing<float> (block));
     
-    
+    // mixing bewtween dry signal and processed signal
     auto sliderMixValue = treeState.getRawParameterValue (MIX_ID);
     
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer(channel);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
-            channelData[sample] = (1.f - sliderMixValue->load()) * cleanSignal[sample] + sliderMixValue->load() * channelData[sample];
+            channelDataL[sample] = (1.f - sliderMixValue->load()) * cleanSignalL[sample] + sliderMixValue->load() * channelDataL[sample];
+            
+            channelDataR[sample] = (1.f - sliderMixValue->load()) * cleanSignalR[sample] + sliderMixValue->load() * channelDataR[sample];
         }
-    }
     
 }
 
