@@ -14,7 +14,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     
-    setSize (600, 200);
+    setSize (700, 300);
      
     // OUTPUT
     // these define the parameters of our slider object
@@ -111,7 +111,13 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
     // set the font size and draw text to the screen
     g.setFont (20.0f);
      
-    g.drawFittedText ("Venom Distortion v2", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Venom Distortion", 0, 40, getWidth(), 30, juce::Justification::centred, 1);
+    
+    g.drawFittedText ("Input", -250, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Drive", -125, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Filter", 0, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Mix", 125, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Output", 250, 100, getWidth(), 30, juce::Justification::centred, 1);
 }
 
 void VenomDistortionAudioProcessorEditor::resized()
@@ -123,11 +129,11 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    inputSlider.setBounds(getWidth()/6-50, getHeight()/4, 130, 130);
-    driveSlider.setBounds(getWidth()/6+50, getHeight()/4, 130, 130);
-    mixSlider.setBounds((getWidth()/2)-25, getHeight()/4, 130, 130);
-    cutoffSlider.setBounds((getWidth()/2)+100, getHeight()/4, 130, 130);
-    outputSlider.setBounds((getWidth()/2)+200, getHeight()/4, 130, 130);
+    inputSlider.setBounds(30, getHeight()/4+60, 130, 130);
+    driveSlider.setBounds(160, getHeight()/4+60, 130, 130);
+    cutoffSlider.setBounds(285, getHeight()/4+60, 130, 130);
+    mixSlider.setBounds(410, getHeight()/4+60, 130, 130);
+    outputSlider.setBounds(535, getHeight()/4+60, 130, 130);
 }
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
