@@ -40,22 +40,22 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
 {
     std::vector <std::unique_ptr<juce::RangedAudioParameter>> params;
     
-    auto outputParam = std::make_unique<juce::AudioParameterFloat>(OUTPUT_ID, OUTPUT_NAME, -50.0f, 0.0f, 0.5f);
+    auto outputParam = std::make_unique<juce::AudioParameterFloat>(OUTPUT_ID, OUTPUT_NAME, -50.0f, 0.0f, 0.0f);
     params.push_back(std::move(outputParam));
     
-    auto inputParam = std::make_unique<juce::AudioParameterFloat>(INPUT_ID, INPUT_NAME, -30.0f, 30.0f, 0.5f);
+    auto inputParam = std::make_unique<juce::AudioParameterFloat>(INPUT_ID, INPUT_NAME, -30.0f, 30.0f, 0.0f);
     params.push_back(std::move(inputParam));
     
     auto mixParam = std::make_unique<juce::AudioParameterFloat>(MIX_ID, MIX_NAME, 0.0f, 1.0f, 1.0f);
     params.push_back(std::move(mixParam));
     
-    auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 0.05f);
+    auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 1.f);
     params.push_back(std::move(driveParam));
     
-    auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 20.f, 20000.0f, 50.0f);
+    auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 20.f, 20000.0f, 20000.0f);
     params.push_back(std::move(cutoffParam));
     
-    auto lowCutParam = std::make_unique<juce::AudioParameterFloat>(LOWCUT_ID, LOWCUT_NAME, 20.f, 20000.0f, 50.0f);
+    auto lowCutParam = std::make_unique<juce::AudioParameterFloat>(LOWCUT_ID, LOWCUT_NAME, 20.f, 20000.0f, 20.0f);
     params.push_back(std::move(lowCutParam));
     
 
@@ -211,10 +211,11 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
-        auto sliderOutputValue = treeState.getRawParameterValue (OUTPUT_ID);
         auto sliderInputValue = treeState.getRawParameterValue (INPUT_ID);
         auto sliderDriveValue = treeState.getRawParameterValue (DRIVE_ID);
-        // ..do something to the data...
+        auto sliderOutputValue = treeState.getRawParameterValue (OUTPUT_ID);
+        
+        
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
             //set input volume, add 3 bc algorithm makes starting volume slightly lower
@@ -236,9 +237,9 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     
     // process filtering
     juce::dsp::AudioBlock <float> block (buffer);
-    updateFilter();
     lowPassFilter.process(juce::dsp::ProcessContextReplacing<float> (block));
     highPassFilter.process(juce::dsp::ProcessContextReplacing<float> (block));
+    updateFilter();
     
     // mixing bewtween dry signal and processed signal
     auto sliderMixValue = treeState.getRawParameterValue (MIX_ID);
