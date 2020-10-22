@@ -25,9 +25,12 @@ lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000.0f, 
 highPassFilter(juce::dsp::IIR::Coefficients<float>::makeHighPass(44100, 20.0f, 0.1))
 #endif
 {
-    //juce::NormalisableRange<float> cutoffRange (100.0f, 20000.0f);
-       
-       //treeState.createAndAddParameter("cutoff", "Cutoff", "cutoff", cutoffRange, 100.0f, nullptr, nullptr);
+//    juce::NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
+//
+//    treeState.createAndAddParameter(CUTOFF_ID, CUTOFF_NAME, CUTOFF_ID, cutoffRange, 20000.0f, nullptr, nullptr);
+//
+//    treeState.createAndAddParameter(LOWCUT_ID, LOWCUT_NAME, LOWCUT_ID, cutoffRange, 20.0f, nullptr, nullptr);
+    
 }
 
 VenomDistortionAudioProcessor::~VenomDistortionAudioProcessor()
@@ -225,7 +228,7 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             // compression at 23:13
             // bitcrushing at 29:00
             
-            //algorithms
+            //algorithm
             float softcliparctan = (2.0f/juce::float_Pi) * atan(channelData[sample] * sliderDriveValue->load());
             
             // set drive and output and mix

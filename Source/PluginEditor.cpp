@@ -33,6 +33,8 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     
     outputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, OUTPUT_ID, outputSlider);
     
+    //outputValue.get(juce::Slider::Listener::sliderValueChanged(<#Slider *slider#>))
+    
     
     
     // Drive
@@ -130,11 +132,11 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
      
     g.drawFittedText ("Venom Distortion", 0, 40, getWidth(), 30, juce::Justification::centred, 1);
     
-    g.drawFittedText ("Input", -280, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Drive", -140, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Low Cut", -70, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Input", -275, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Drive", -155, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Low Cut", -55, 100, getWidth(), 30, juce::Justification::centred, 1);
     g.drawFittedText ("High Cut", 70, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Ouput", 160, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Ouput", 170, 100, getWidth(), 30, juce::Justification::centred, 1);
     g.drawFittedText ("Mix", 280, 100, getWidth(), 30, juce::Justification::centred, 1);
 }
 
