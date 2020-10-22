@@ -163,17 +163,13 @@ void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slid
 //    {
 //        audioProcessor.output = outputSlider.getValue();
 //    }
-//    else if (slider == &driveSlider)
-//    {
-//        audioProcessor.drive = driveSlider.getValue();
-//    }
+    if (slider == &driveSlider)
+    {
+        outputSlider.setValue(-driveSlider.getValue() + 1);
+    }
 //    else if (slider == &mixSlider)
 //    {
 //        audioProcessor.mix = mixSlider.getValue();
-//    }
-//    else if (slider ==&inputSlider)
-//    {
-//        audioProcessor.input = inputSlider.getValue();
 //    }
 }
 

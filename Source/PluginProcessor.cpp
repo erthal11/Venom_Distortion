@@ -182,9 +182,9 @@ void VenomDistortionAudioProcessor::updateFilter()
     float lpfreq = *treeState.getRawParameterValue("cutoff");
     float hpfreq = *treeState.getRawParameterValue("lowcut");
     
-    *lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(lastSampleRate, lpfreq, 0.1);
+    *lowPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeLowPass(lastSampleRate, lpfreq, 1.0);
     
-    *highPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(lastSampleRate, hpfreq, 0.1);
+    *highPassFilter.state = *juce::dsp::IIR::Coefficients<float>::makeHighPass(lastSampleRate, hpfreq, 1.0);
 }
 
 void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
