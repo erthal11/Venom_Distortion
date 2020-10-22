@@ -20,6 +20,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // these define the parameters of our slider object
     outputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     outputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    outputSlider.setTextValueSuffix (" dB");
     outputSlider.setRange (-50.0f, 0.0f, 0.5f);
     outputSlider.setValue(0.0f);
     // this = this class
@@ -33,13 +34,12 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     
     outputValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, OUTPUT_ID, outputSlider);
     
-    //outputValue.get(juce::Slider::Listener::sliderValueChanged(<#Slider *slider#>))
-    
-    
+
     
     // Drive
     driveSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     driveSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    driveSlider.setTextValueSuffix (" dB");
     driveSlider.setRange (1.f, 25.0f, 0.05f);
     driveSlider.setValue(1.f);
     driveSlider.addListener(this);
@@ -55,6 +55,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // mix
     mixSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     mixSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    mixSlider.setTextValueSuffix (" %");
     mixSlider.setRange (0.0f, 1.0f, 0.001f);
     mixSlider.setValue(1.0f);
     mixSlider.addListener(this);
@@ -69,6 +70,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // input
     inputSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     inputSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    inputSlider.setTextValueSuffix (" dB");
     inputSlider.setRange (-30.0f, 30.0f, 0.5f);
     inputSlider.setValue(0.0f);
     inputSlider.addListener(this);
@@ -83,8 +85,9 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // cutoff
     cutoffSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     cutoffSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    cutoffSlider.setRange (20.0f, 20000.0f, 50.f);
-    cutoffSlider.setValue(20000.0f);
+    cutoffSlider.setTextValueSuffix (" Hz");
+    cutoffSlider.setRange (20, 20000, 50);
+    cutoffSlider.setValue(20000);
     cutoffSlider.addListener(this);
 
     cutoffSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
@@ -98,8 +101,9 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // highpass
     highPassSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     highPassSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    highPassSlider.setRange (20.0f, 20000.0f, 50.f);
-    highPassSlider.setValue(20.0f);
+    highPassSlider.setTextValueSuffix (" Hz");
+    highPassSlider.setRange (20, 20000, 50);
+    highPassSlider.setValue(20);
     highPassSlider.addListener(this);
 
     highPassSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
