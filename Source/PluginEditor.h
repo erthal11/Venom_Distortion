@@ -34,8 +34,8 @@ private:
     juce::Slider mixSlider;
     juce::Slider outputSlider;
     juce::Slider inputSlider;
-    
     juce::Slider cutoffSlider;
+    juce::Slider highPassSlider;
     
 //    juce::AudioProcessorValueTreeState::SliderAttachment drive;
 //    juce::AudioProcessorValueTreeState::SliderAttachment mix;
@@ -51,8 +51,8 @@ public:
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> inputValue;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> mixValue;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> driveValue;
-    
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> cutoffValue;
+    std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> highPassValue;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)

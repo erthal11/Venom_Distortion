@@ -25,6 +25,9 @@
 #define CUTOFF_ID "cutoff"
 #define CUTOFF_NAME "Cutoff"
 
+#define LOWCUT_ID "lowcut"
+#define LOWCUT_NAME "Lowcut"
+
 //==============================================================================
 /**
 */
@@ -86,6 +89,8 @@ public:
 private:
     
     juce::dsp::ProcessorDuplicator <juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients <float>> lowPassFilter;
+    
+    juce::dsp::ProcessorDuplicator <juce::dsp::IIR::Filter<float>, juce::dsp::IIR::Coefficients <float>> highPassFilter;
        
        float lastSampleRate;
     

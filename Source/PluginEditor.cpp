@@ -80,7 +80,7 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     // cutoff
     cutoffSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
     cutoffSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
-    cutoffSlider.setRange (100.0f, 20000.0f, 100.f);
+    cutoffSlider.setRange (20.0f, 20000.0f, 50.f);
     cutoffSlider.setValue(20000.0f);
     cutoffSlider.addListener(this);
 
@@ -89,7 +89,23 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
      
     addAndMakeVisible (&cutoffSlider);
     
+    
     cutoffValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, CUTOFF_ID, cutoffSlider);
+    
+    // highpass
+    highPassSlider.setSliderStyle (juce::Slider::RotaryHorizontalVerticalDrag);
+    highPassSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 100, 25);
+    highPassSlider.setRange (20.0f, 20000.0f, 50.f);
+    highPassSlider.setValue(20.0f);
+    highPassSlider.addListener(this);
+
+    highPassSlider.getLookAndFeel().setColour(juce::Slider::thumbColourId, juce::Colours::red);
+    highPassSlider.getLookAndFeel().setColour(juce::Slider::rotarySliderFillColourId, juce::Colours::darkred);
+     
+    addAndMakeVisible (&highPassSlider);
+    
+    
+    highPassValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, LOWCUT_ID, highPassSlider);
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()
@@ -113,11 +129,12 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
      
     g.drawFittedText ("Venom Distortion", 0, 40, getWidth(), 30, juce::Justification::centred, 1);
     
-    g.drawFittedText ("Input", -250, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Drive", -125, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Filter", 0, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Mix", 125, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Output", 250, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Input", -280, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Drive", -140, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Low Cut", -70, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("High Cut", 70, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Ouput", 160, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Mix", 280, 100, getWidth(), 30, juce::Justification::centred, 1);
 }
 
 void VenomDistortionAudioProcessorEditor::resized()
@@ -129,11 +146,12 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    inputSlider.setBounds(30, getHeight()/4+60, 130, 130);
-    driveSlider.setBounds(160, getHeight()/4+60, 130, 130);
-    cutoffSlider.setBounds(285, getHeight()/4+60, 130, 130);
-    mixSlider.setBounds(410, getHeight()/4+60, 130, 130);
-    outputSlider.setBounds(535, getHeight()/4+60, 130, 130);
+    inputSlider.setBounds(30, getHeight()/4+60, 110, 110);
+    driveSlider.setBounds(140, getHeight()/4+60, 110, 110);
+    highPassSlider.setBounds(250, getHeight()/4+60, 110, 110);
+    cutoffSlider.setBounds(360, getHeight()/4+60, 110, 110);
+    outputSlider.setBounds(470, getHeight()/4+60, 110, 110);
+    mixSlider.setBounds(580, getHeight()/4+60, 110, 110);
 }
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)
