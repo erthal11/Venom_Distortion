@@ -65,6 +65,10 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
     params.push_back(std::move(lowCutParam));
     
 
+    auto hardclipBoolParam = std::make_unique<juce::AudioParameterBool>("hardclip", "Hardclip", false);
+    params.push_back(std::move(hardclipBoolParam));
+    
+
     return { params.begin(), params.end() };
 }
 
@@ -205,6 +209,7 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     float *cleanSignalL = new float[buffer.getNumSamples()];
     float *cleanSignalR = new float[buffer.getNumSamples()];
     
+    
         auto* channelDataL = buffer.getWritePointer (0);
         auto* channelDataR = buffer.getWritePointer (1);
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
@@ -221,6 +226,8 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
         auto sliderDriveValue = treeState.getRawParameterValue (DRIVE_ID);
         auto sliderOutputValue = treeState.getRawParameterValue (OUTPUT_ID);
         
+        auto hardclipBool = treeState.getRawParameterValue("hardclip");
+        
         
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
@@ -230,12 +237,26 @@ void VenomDistortionAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
             // https://www.youtube.com/watch?v=oIChUOV_0w4
             // compression at 23:13
             // bitcrushing at 29:00
+
             
-            //algorithm
-            float softcliparctan = (2.0f/juce::float_Pi) * atan(channelData[sample] * sliderDriveValue->load());
+            //hardclipper
+            if (hardclipBool->load() == true)
+            {
+            algorithm = juce::jlimit (-1.f, 1.f, channelData[sample] * sliderDriveValue->load());
+            }
             
-            // set drive and output and mix
-            channelData[sample] = softcliparctan * juce::Decibels::decibelsToGain(sliderOutputValue->load());
+            //Arctan
+            else if (hardclipBool->load() == false)
+            {
+                algorithm = (2.0f/juce::float_Pi) * atan(channelData[sample] * sliderDriveValue->load());
+            }
+            
+            
+            //rectifier
+            //algorithm = std::abs( channelData[sample] * sliderDriveValue->load());
+            
+            // apply distortion
+            channelData[sample] = algorithm * juce::Decibels::decibelsToGain(sliderOutputValue->load());
             
             
         }

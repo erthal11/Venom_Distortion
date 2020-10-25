@@ -113,6 +113,20 @@ VenomDistortionAudioProcessorEditor::VenomDistortionAudioProcessorEditor (VenomD
     
     
     highPassValue = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(audioProcessor.treeState, LOWCUT_ID, highPassSlider);
+    
+    //arctan button
+    //arctanButton.onClick = [this]() {};
+    //addAndMakeVisible (&arctanButton);
+    
+    // hardclip button
+    hardclipButton.setColour(juce::TextButton::buttonColourId, juce::Colours::black);
+    hardclipButton.setColour(juce::TextButton::buttonOnColourId, juce::Colours::darkred);
+    hardclipButton.setClickingTogglesState (true);
+    hardclipButton.onClick = [this]() {}; //juce::AudioProcessorValueTreeState::Listener::parameterChanged(TYPE_ID,1);
+    addAndMakeVisible (&hardclipButton);
+    
+    hardclipValue = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(audioProcessor.treeState, "hardclip", hardclipButton);
+    
 }
 
 VenomDistortionAudioProcessorEditor::~VenomDistortionAudioProcessorEditor()
@@ -134,7 +148,7 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
     // set the font size and draw text to the screen
     g.setFont (20.0f);
      
-    g.drawFittedText ("Venom Distortion", 0, 40, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Venom Distortion", 0, 30, getWidth(), 30, juce::Justification::centred, 1);
     
     g.drawFittedText ("Input", -275, 100, getWidth(), 30, juce::Justification::centred, 1);
     g.drawFittedText ("Drive", -155, 100, getWidth(), 30, juce::Justification::centred, 1);
@@ -159,6 +173,8 @@ void VenomDistortionAudioProcessorEditor::resized()
     cutoffSlider.setBounds(360, getHeight()/4+60, 110, 110);
     outputSlider.setBounds(470, getHeight()/4+60, 110, 110);
     mixSlider.setBounds(580, getHeight()/4+60, 110, 110);
+    
+    hardclipButton.setBounds(60, 25, 80, 60);
 }
 
 void VenomDistortionAudioProcessorEditor::sliderValueChanged (juce::Slider* slider)

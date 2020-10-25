@@ -37,6 +37,10 @@ private:
     juce::Slider cutoffSlider;
     juce::Slider highPassSlider;
     
+    juce::TextButton arctanButton {"Arctan"};
+    juce::TextButton hardclipButton {"Crush"};
+    juce::TextButton rectifierButton {"Rectifier"};
+    
 //    juce::AudioProcessorValueTreeState::SliderAttachment drive;
 //    juce::AudioProcessorValueTreeState::SliderAttachment mix;
 //    juce::AudioProcessorValueTreeState::SliderAttachment output;
@@ -53,6 +57,8 @@ public:
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> driveValue;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> cutoffValue;
     std::unique_ptr <juce::AudioProcessorValueTreeState::SliderAttachment> highPassValue;
+    
+    std::unique_ptr <juce::AudioProcessorValueTreeState::ButtonAttachment> hardclipValue;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (VenomDistortionAudioProcessorEditor)
