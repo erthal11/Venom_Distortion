@@ -21,8 +21,8 @@ VenomDistortionAudioProcessor::VenomDistortionAudioProcessor()
                      #endif
                        ),
 treeState (*this, nullptr, "PARAMETER", createParameterLayout()),
-lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000, 1.0)),
-highPassFilter(juce::dsp::IIR::Coefficients<float>::makeHighPass(44100, 20, 1.0))
+lowPassFilter(juce::dsp::IIR::Coefficients<float>::makeLowPass(44100, 20000, 0.7)),
+highPassFilter(juce::dsp::IIR::Coefficients<float>::makeHighPass(44100, 20, 0.7))
 #endif
 {
 //    juce::NormalisableRange<float> cutoffRange (20.0f, 20000.0f);
@@ -55,10 +55,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout VenomDistortionAudioProcesso
     auto driveParam = std::make_unique<juce::AudioParameterFloat>(DRIVE_ID, DRIVE_NAME, 1.f, 25.0f, 1.f);
     params.push_back(std::move(driveParam));
     
-    auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, 20, 20000, 20000);
+    auto normRange = juce::NormalisableRange<float>(20,20000);
+    normRange.setSkewForCentre(1000);
+    
+    auto cutoffParam = std::make_unique<juce::AudioParameterFloat>(CUTOFF_ID, CUTOFF_NAME, normRange, 20000);
     params.push_back(std::move(cutoffParam));
     
-    auto lowCutParam = std::make_unique<juce::AudioParameterFloat>(LOWCUT_ID, LOWCUT_NAME, 20, 20000, 20);
+    auto lowCutParam = std::make_unique<juce::AudioParameterFloat>(LOWCUT_ID, LOWCUT_NAME, normRange, 20);
     params.push_back(std::move(lowCutParam));
     
 
