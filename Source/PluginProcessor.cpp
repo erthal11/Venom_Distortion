@@ -289,6 +289,7 @@ bool VenomDistortionAudioProcessor::hasEditor() const
 juce::AudioProcessorEditor* VenomDistortionAudioProcessor::createEditor()
 {
     return new VenomDistortionAudioProcessorEditor (*this);
+    //return new foleys::MagicPluginEditor (magicState);
 }
 
 //==============================================================================

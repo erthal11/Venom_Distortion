@@ -150,12 +150,12 @@ void VenomDistortionAudioProcessorEditor::paint (juce::Graphics& g)
      
     g.drawFittedText ("Venom Distortion", 0, 30, getWidth(), 30, juce::Justification::centred, 1);
     
-    g.drawFittedText ("Input", -275, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Drive", -155, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Low Cut", -55, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("High Cut", 70, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Ouput", 170, 100, getWidth(), 30, juce::Justification::centred, 1);
-    g.drawFittedText ("Mix", 280, 100, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Input", -267, 110, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Drive", -157, 110, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Low Cut", -50, 110, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("High Cut", 65, 110, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Output", 173, 110, getWidth(), 30, juce::Justification::centred, 1);
+    g.drawFittedText ("Mix", 282, 110, getWidth(), 30, juce::Justification::centred, 1);
 }
 
 void VenomDistortionAudioProcessorEditor::resized()
@@ -167,12 +167,12 @@ void VenomDistortionAudioProcessorEditor::resized()
     // sets the position and size of the slider with arguments (x, y, width, height)
     //outputVolume.setBounds (40, 30, 20, getHeight() - 60);
     
-    inputSlider.setBounds(30, getHeight()/4+60, 110, 110);
-    driveSlider.setBounds(140, getHeight()/4+60, 110, 110);
-    highPassSlider.setBounds(250, getHeight()/4+60, 110, 110);
-    cutoffSlider.setBounds(360, getHeight()/4+60, 110, 110);
-    outputSlider.setBounds(470, getHeight()/4+60, 110, 110);
-    mixSlider.setBounds(580, getHeight()/4+60, 110, 110);
+    inputSlider.setBounds(30, getHeight()/4+60, 110, 115);
+    driveSlider.setBounds(140, getHeight()/4+60, 110, 115);
+    highPassSlider.setBounds(250, getHeight()/4+60, 110, 115);
+    cutoffSlider.setBounds(360, getHeight()/4+60, 110, 115);
+    outputSlider.setBounds(470, getHeight()/4+60, 110, 115);
+    mixSlider.setBounds(580, getHeight()/4+60, 110, 115);
     
     hardclipButton.setBounds(60, 25, 80, 60);
 }

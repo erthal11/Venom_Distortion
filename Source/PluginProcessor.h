@@ -87,6 +87,9 @@ public:
     juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
     juce::AudioParameterChoice *prmType;
+    
+    //foleys::MagicProcessorState magicState { *this, treeState };
+
 
 private:
     
